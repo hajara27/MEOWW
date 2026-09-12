@@ -71,7 +71,7 @@ For Hardware: <img width="1536" height="1024" alt="image" src="https://github.co
 
 ### Project Demo
 # Video
-[https://discord.com/channels/@me/1509213168335851571/1548139568031604766]
+https://drive.google.com/file/d/1NQO5RCSRFrkR8TUZnvZ16NPt2iQ-RZWE/view?usp=drive_link
 *The video demonstrates demo of the PlanBook*
 
 
