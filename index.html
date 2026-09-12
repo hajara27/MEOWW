@@ -1,0 +1,2811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlantBook 🌱 | Team MEOW</title>
+
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg: #050806;
+    --bg2: #08100b;
+    --card: #0c1510;
+    --card2: #101b14;
+    --border: #1c3324;
+
+    --green: #62e88c;
+    --green2: #35bd69;
+    --green-dark: #12351f;
+
+    --text: #edf8f0;
+    --muted: #82988a;
+
+    --pink: #ff6d9f;
+    --yellow: #f4ca5d;
+}
+
+body {
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: var(--bg);
+    color: var(--text);
+
+    min-height: 100vh;
+}
+
+
+/* =========================================================
+   PAGE SYSTEM
+========================================================= */
+
+.page {
+    display: none;
+    min-height: 100vh;
+}
+
+.page.active {
+    display: block;
+}
+
+
+/* =========================================================
+   PAGE 1 — SENSOR
+========================================================= */
+
+#sensorPage {
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 100vh;
+
+    padding: 25px;
+
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(61, 201, 105, .12),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 10% 90%,
+            rgba(255, 107, 157, .05),
+            transparent 30%
+        ),
+        #050806;
+}
+
+#sensorPage.active {
+    display: flex;
+}
+
+.sensor-container {
+    width: 100%;
+    max-width: 900px;
+}
+
+.sensor-team {
+    color: var(--pink);
+
+    font-size: 12px;
+    font-weight: 800;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 16px;
+}
+
+.sensor-container h1 {
+    font-size: clamp(38px, 7vw, 62px);
+
+    letter-spacing: -2px;
+
+    margin-bottom: 12px;
+}
+
+.sensor-subtitle {
+    color: var(--muted);
+
+    font-size: 17px;
+
+    margin-bottom: 40px;
+}
+
+
+/* SENSOR CIRCLE */
+
+.sensor-circle {
+    width: 245px;
+    height: 245px;
+
+    margin: 0 auto;
+
+    border-radius: 50%;
+
+    display: grid;
+    place-items: center;
+
+    position: relative;
+
+    background:
+        radial-gradient(
+            circle,
+            #122c1a,
+            #07100a 65%
+        );
+
+    border: 2px solid #3d9f5c;
+
+    box-shadow:
+        0 0 35px rgba(70, 220, 110, .14),
+        inset 0 0 35px rgba(70, 220, 110, .05);
+}
+
+.sensor-circle::before {
+    content: "";
+
+    position: absolute;
+
+    width: 195px;
+    height: 195px;
+
+    border-radius: 50%;
+
+    border: 1px dashed #3b8e52;
+
+    animation: spin 8s linear infinite;
+}
+
+.sensor-circle::after {
+    content: "";
+
+    position: absolute;
+
+    width: 125px;
+    height: 125px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(98,232,140,.18);
+
+    animation: pulse 2s infinite;
+}
+
+.sensor-plant {
+    font-size: 82px;
+
+    position: relative;
+
+    z-index: 3;
+
+    filter:
+        drop-shadow(
+            0 0 18px
+            rgba(98,232,140,.2)
+        );
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+
+    0%,100% {
+        transform: scale(.9);
+        opacity: .4;
+    }
+
+    50% {
+        transform: scale(1.08);
+        opacity: .9;
+    }
+}
+
+
+/* BUTTON */
+
+.sensor-button {
+    margin-top: 38px;
+
+    padding: 15px 30px;
+
+    border-radius: 12px;
+
+    border: 1px solid #57d87d;
+
+    background:
+        linear-gradient(
+            135deg,
+            #43c873,
+            #269652
+        );
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 30px
+        rgba(50,190,100,.16);
+
+    transition: .2s;
+}
+
+.sensor-button:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 15px 35px
+        rgba(50,190,100,.25);
+}
+
+.sensor-disclaimer {
+    margin-top: 20px;
+
+    color: #4f6255;
+
+    font-size: 11px;
+}
+
+
+/* SCANNING */
+
+#scanning {
+    display: none;
+}
+
+.loader {
+    width: 250px;
+    height: 6px;
+
+    margin: 30px auto 15px;
+
+    background: #122018;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+}
+
+.loader-bar {
+    height: 100%;
+
+    width: 0%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #32ad60,
+            #72ee97
+        );
+
+    animation:
+        loading 3s linear forwards;
+}
+
+@keyframes loading {
+    to {
+        width: 100%;
+    }
+}
+
+
+/* RESULTS */
+
+#result {
+    display: none;
+}
+
+.sensor-results {
+
+    max-width: 780px;
+
+    margin: 30px auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 14px;
+}
+
+.sensor-card {
+
+    padding: 20px 10px;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #101c14,
+            #09110c
+        );
+
+    border: 1px solid #1f3928;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.2);
+}
+
+.sensor-card .icon {
+    font-size: 28px;
+}
+
+.sensor-card h3 {
+
+    margin: 9px 0;
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    letter-spacing: .5px;
+}
+
+.sensor-card p {
+
+    color: var(--green);
+
+    font-size: 22px;
+
+    font-weight: 800;
+}
+
+.sensor-status {
+
+    margin: 22px 0;
+
+    font-size: 21px;
+
+    color: #d8e9dc;
+}
+
+
+/* =========================================================
+   PAGE 2 — PLANTBOOK
+========================================================= */
+
+#plantbookPage {
+    background:
+        radial-gradient(
+            circle at 10% 0%,
+            rgba(65,205,108,.07),
+            transparent 30%
+        ),
+        #050806;
+}
+
+
+/* HEADER */
+
+header {
+
+    height: 72px;
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 100;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 6%;
+
+    background:
+        rgba(5,8,6,.88);
+
+    backdrop-filter: blur(18px);
+
+    border-bottom:
+        1px solid var(--border);
+}
+
+.brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    font-size: 23px;
+
+    font-weight: 800;
+}
+
+.brand-icon {
+
+    width: 38px;
+    height: 38px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #173b23,
+            #0b1c10
+        );
+
+    border: 1px solid #285d38;
+
+    box-shadow:
+        0 0 25px
+        rgba(94,230,138,.1);
+}
+
+.brand span {
+    color: var(--green);
+}
+
+.team {
+
+    padding: 8px 14px;
+
+    border-radius: 30px;
+
+    background: #171018;
+
+    border: 1px solid #432337;
+
+    color: #ff76a6;
+
+    font-size: 11px;
+
+    font-weight: 800;
+}
+
+
+/* MAIN */
+
+.container {
+
+    width: min(1180px, 92%);
+
+    margin: 28px auto 60px;
+}
+
+
+/* HERO */
+
+.hero {
+
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 50px 25px;
+
+    margin-bottom: 23px;
+
+    text-align: center;
+
+    border-radius: 25px;
+
+    background:
+        radial-gradient(
+            circle at 50% 130%,
+            rgba(65,210,110,.16),
+            transparent 55%
+        ),
+        linear-gradient(
+            145deg,
+            #0e1c12,
+            #080d09
+        );
+
+    border: 1px solid #203c29;
+
+    box-shadow:
+        0 15px 50px
+        rgba(0,0,0,.25);
+}
+
+.hero-icons {
+
+    font-size: 46px;
+
+    margin-bottom: 12px;
+}
+
+.hero h1 {
+
+    font-size:
+        clamp(34px, 5vw, 52px);
+
+    letter-spacing: -1.5px;
+
+    margin-bottom: 10px;
+}
+
+.hero h1 span {
+    color: var(--green);
+}
+
+.hero p {
+    color: var(--muted);
+}
+
+.hero-tag {
+
+    display: inline-block;
+
+    margin-top: 18px;
+
+    padding: 8px 14px;
+
+    border-radius: 30px;
+
+    background: #160e13;
+
+    border: 1px solid #402232;
+
+    color: #ff78a7;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+
+/* LAYOUT */
+
+.layout {
+
+    display: grid;
+
+    grid-template-columns:
+        300px
+        minmax(0, 1fr);
+
+    gap: 22px;
+
+    align-items: start;
+}
+
+
+/* CARDS */
+
+.card {
+
+    padding: 20px;
+
+    margin-bottom: 18px;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #0e1812,
+            #09100c
+        );
+
+    border: 1px solid var(--border);
+
+    box-shadow:
+        0 10px 35px
+        rgba(0,0,0,.18);
+
+    transition: .2s;
+}
+
+.card:hover {
+    border-color: #294a33;
+}
+
+.card h2 {
+
+    font-size: 17px;
+
+    margin-bottom: 16px;
+}
+
+
+/* PROFILE */
+
+.profile {
+    text-align: center;
+
+    padding: 27px 20px;
+}
+
+.avatar {
+
+    width: 105px;
+    height: 105px;
+
+    margin: 0 auto 15px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 50%;
+
+    font-size: 55px;
+
+    background:
+        radial-gradient(
+            circle,
+            #1b4728,
+            #0a1b0f
+        );
+
+    border: 2px solid #285c38;
+
+    box-shadow:
+        0 0 35px
+        rgba(94,230,138,.12);
+}
+
+.profile h2 {
+    margin-bottom: 5px;
+}
+
+.species,
+.muted {
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+.mood {
+
+    margin: 17px 0;
+
+    padding: 12px;
+
+    border-radius: 12px;
+
+    background: #091a0f;
+
+    border: 1px solid #1d3825;
+
+    color: #a5b7aa;
+
+    font-size: 13px;
+}
+
+.mood b {
+    color: var(--green);
+}
+
+
+/* STATS */
+
+.stats {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    padding: 16px 0;
+
+    margin-bottom: 17px;
+
+    border-top:
+        1px solid var(--border);
+
+    border-bottom:
+        1px solid var(--border);
+}
+
+.stats strong {
+
+    display: block;
+
+    font-size: 18px;
+}
+
+.stats span {
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    text-transform: uppercase;
+}
+
+
+/* BUTTONS */
+
+button {
+    font-family: inherit;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.primary {
+
+    width: 100%;
+
+    padding: 12px;
+
+    border-radius: 11px;
+
+    border: 1px solid #55d77c;
+
+    background:
+        linear-gradient(
+            135deg,
+            #43c873,
+            #299b58
+        );
+
+    color: white;
+
+    font-weight: 800;
+
+    box-shadow:
+        0 7px 20px
+        rgba(53,185,104,.13);
+}
+
+.primary:hover {
+    transform: translateY(-2px);
+}
+
+
+/* FORM */
+
+.form input,
+.form select {
+
+    width: 100%;
+
+    padding: 12px;
+
+    margin-bottom: 10px;
+
+    border-radius: 11px;
+
+    border: 1px solid #203c29;
+
+    background: #070e09;
+
+    color: white;
+
+    outline: none;
+}
+
+.form input:focus,
+.form select:focus {
+    border-color: #45bd69;
+}
+
+
+/* DRAMA */
+
+.drama {
+
+    min-height: 90px;
+
+    display: grid;
+
+    place-items: center;
+
+    padding: 15px;
+
+    text-align: center;
+
+    line-height: 1.5;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #171309,
+            #100e08
+        );
+
+    border: 1px solid #40361d;
+
+    color: #d9c98d;
+
+    font-size: 13px;
+}
+
+.drama-btn {
+
+    width: 100%;
+
+    margin-top: 10px;
+
+    padding: 11px;
+
+    border-radius: 10px;
+
+    background: #151512;
+
+    border: 1px solid #39352a;
+
+    color: #eee4bd;
+
+    font-weight: 700;
+}
+
+.drama-btn:hover {
+    background: #211f17;
+}
+
+
+/* COMPOSER */
+
+.composer {
+
+    display: flex;
+
+    gap: 12px;
+
+    align-items: flex-start;
+}
+
+.composer textarea {
+
+    flex: 1;
+
+    min-height: 90px;
+
+    padding: 13px;
+
+    resize: vertical;
+
+    border-radius: 12px;
+
+    border: 1px solid #203c29;
+
+    background: #070e09;
+
+    color: white;
+
+    outline: none;
+
+    font-family: inherit;
+}
+
+.composer textarea:focus {
+    border-color: #43bb68;
+}
+
+.composer button {
+
+    padding: 12px 18px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #43c873,
+            #299b58
+        );
+
+    color: white;
+
+    font-weight: 800;
+}
+
+
+/* FEED TITLE */
+
+.feed-title {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+.feed-label {
+
+    padding: 5px 9px;
+
+    border-radius: 20px;
+
+    background: #092514;
+
+    border: 1px solid #1d512e;
+
+    color: var(--green);
+
+    font-size: 9px;
+
+    font-weight: 900;
+}
+
+
+/* POSTS */
+
+.post {
+
+    padding: 20px 0;
+
+    border-top:
+        1px solid var(--border);
+}
+
+.post:first-child {
+    border-top: none;
+
+    padding-top: 5px;
+}
+
+.posthead {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+}
+
+.mini {
+
+    width: 45px;
+    height: 45px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 13px;
+
+    background: #102619;
+
+    border: 1px solid #23492e;
+
+    font-size: 23px;
+}
+
+.posthead strong {
+    display: block;
+
+    font-size: 14px;
+}
+
+.posthead small {
+
+    display: block;
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    margin-top: 3px;
+}
+
+.posttext {
+
+    margin: 13px 0;
+
+    color: #cad8ce;
+
+    line-height: 1.6;
+
+    font-size: 14px;
+}
+
+.actions {
+    display: flex;
+
+    gap: 8px;
+}
+
+.like {
+
+    padding: 8px 12px;
+
+    border-radius: 9px;
+
+    border: 1px solid #20382a;
+
+    background: #0b1510;
+
+    color: #9caf9f;
+}
+
+.like:hover {
+    border-color: #3a6246;
+}
+
+.like.liked {
+
+    background: #25101a;
+
+    border-color: #5b263c;
+
+    color: #ff709f;
+}
+
+
+/* LEADERBOARD */
+
+.leader {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 13px 0;
+
+    border-bottom:
+        1px solid var(--border);
+}
+
+.leader:last-child {
+    border-bottom: none;
+}
+
+.rank {
+
+    width: 28px;
+    height: 28px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 8px;
+
+    background: #122318;
+
+    color: var(--green);
+
+    font-size: 12px;
+
+    font-weight: 900;
+}
+
+.plantname {
+    flex: 1;
+
+    font-size: 14px;
+}
+
+.badge {
+
+    display: inline-block;
+
+    margin-left: 5px;
+
+    padding: 4px 7px;
+
+    border-radius: 20px;
+
+    background: #171118;
+
+    color: #d58ca8;
+
+    font-size: 9px;
+
+    font-weight: 800;
+}
+
+.score {
+
+    color: var(--yellow);
+
+    font-size: 11px;
+
+    font-weight: 800;
+}
+
+
+/* NOTIFICATIONS */
+
+.notification {
+
+    display: flex;
+
+    gap: 10px;
+
+    padding: 12px 0;
+
+    border-bottom:
+        1px solid var(--border);
+
+    color: #aabaae;
+
+    font-size: 13px;
+}
+
+.notification:last-child {
+    border-bottom: none;
+}
+
+.dot {
+
+    width: 7px;
+    height: 7px;
+
+    flex-shrink: 0;
+
+    margin-top: 5px;
+
+    border-radius: 50%;
+
+    background: var(--pink);
+
+    box-shadow:
+        0 0 8px
+        rgba(255,107,157,.6);
+}
+
+
+/* ANNOUNCEMENT */
+
+.announcement {
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #130c11,
+            #0c090d
+        );
+
+    border-color: #39202d;
+}
+
+.announcement-icon {
+    font-size: 32px;
+
+    margin-bottom: 8px;
+}
+
+.announcement p {
+
+    color: var(--muted);
+
+    line-height: 1.5;
+
+    font-size: 13px;
+}
+
+.secondary {
+
+    margin-top: 15px;
+
+    padding: 10px 15px;
+
+    border-radius: 10px;
+
+    background: #151117;
+
+    border: 1px solid #402333;
+
+    color: #e78daa;
+
+    font-weight: 700;
+}
+
+
+/* MODAL */
+
+.modal {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 200;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(0,0,0,.78);
+
+    backdrop-filter: blur(8px);
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modalbox {
+
+    width: min(450px,100%);
+
+    padding: 28px;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #111c15,
+            #090f0b
+        );
+
+    border: 1px solid #294832;
+
+    box-shadow:
+        0 30px 80px
+        rgba(0,0,0,.5);
+}
+
+.modalbox h2 {
+    margin-bottom: 15px;
+}
+
+.modalbox p {
+
+    color: #9caf9f;
+
+    line-height: 1.7;
+
+    font-size: 14px;
+}
+
+.close {
+
+    float: right;
+
+    width: 32px;
+    height: 32px;
+
+    border-radius: 50%;
+
+    background: #111b14;
+
+    border: 1px solid #26392c;
+
+    color: #a9b8ae;
+
+    font-size: 19px;
+}
+
+
+/* TOAST */
+
+.toast {
+
+    position: fixed;
+
+    right: 22px;
+    bottom: 22px;
+
+    z-index: 300;
+
+    padding: 13px 17px;
+
+    border-radius: 12px;
+
+    background: #12291a;
+
+    border: 1px solid #2e7141;
+
+    color: #dff9e6;
+
+    font-size: 13px;
+
+    opacity: 0;
+
+    transform: translateY(15px);
+
+    pointer-events: none;
+
+    transition: .25s;
+}
+
+.toast.show {
+
+    opacity: 1;
+
+    transform: none;
+}
+
+
+/* FOOTER */
+
+footer {
+
+    text-align: center;
+
+    padding: 30px 20px 45px;
+
+    color: #526359;
+
+    font-size: 12px;
+}
+
+footer b {
+    color: var(--pink);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:850px) {
+
+    .layout {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        padding: 42px 20px;
+    }
+
+}
+
+@media(max-width:600px) {
+
+    header {
+        padding: 0 4%;
+    }
+
+    header .team {
+        display: none;
+    }
+
+    .container {
+        width: 94%;
+    }
+
+    .sensor-circle {
+        width: 190px;
+        height: 190px;
+    }
+
+    .sensor-circle::before {
+        width: 150px;
+        height: 150px;
+    }
+
+    .sensor-plant {
+        font-size: 65px;
+    }
+
+    .sensor-results {
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .composer {
+        display: block;
+    }
+
+    .composer button {
+        width: 100%;
+
+        margin-top: 9px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- ========================================================
+     PAGE 1 — PLANT SENSOR
+========================================================= -->
+
+<section
+    id="sensorPage"
+    class="page active"
+>
+
+    <div class="sensor-container">
+
+
+        <!-- START -->
+
+        <div id="start">
+
+            <div class="sensor-team">
+                TEAM MEOW
+            </div>
+
+            <h1>
+                🌱 Plant Sensor
+            </h1>
+
+            <p class="sensor-subtitle">
+                Because apparently plants need a health
+                check-up too.
+            </p>
+
+
+            <div class="sensor-circle">
+
+                <div class="sensor-plant">
+                    🪴
+                </div>
+
+            </div>
+
+
+            <button
+                class="sensor-button"
+                onclick="scanPlant()"
+            >
+                🔍 Scan Plant
+            </button>
+
+
+            <p class="sensor-disclaimer">
+                *Sensor readings are simulated.
+                Please don't sue Team MEOW.
+            </p>
+
+        </div>
+
+
+
+        <!-- SCANNING -->
+
+        <div id="scanning">
+
+            <div class="sensor-team">
+                TEAM MEOW
+            </div>
+
+            <h1>
+                🔬 Scanning...
+            </h1>
+
+            <p class="sensor-subtitle">
+                Analyzing extremely important plant data...
+            </p>
+
+
+            <div class="sensor-circle">
+
+                <div class="sensor-plant">
+                    🌿
+                </div>
+
+            </div>
+
+
+            <div class="loader">
+
+                <div class="loader-bar"></div>
+
+            </div>
+
+
+            <p class="muted">
+                Checking soil...
+                Checking sunlight...
+                Checking plant emotions...
+            </p>
+
+        </div>
+
+
+
+        <!-- RESULTS -->
+
+        <div id="result">
+
+            <div class="sensor-team">
+                TEAM MEOW
+            </div>
+
+            <h1>
+                🌱 Plant Report
+            </h1>
+
+            <p class="sensor-subtitle">
+                The plant has officially been diagnosed.
+            </p>
+
+
+            <div class="sensor-results">
+
+
+                <div class="sensor-card">
+
+                    <div class="icon">
+                        💧
+                    </div>
+
+                    <h3>
+                        SOIL MOISTURE
+                    </h3>
+
+                    <p>
+                        64%
+                    </p>
+
+                </div>
+
+
+                <div class="sensor-card">
+
+                    <div class="icon">
+                        🌡️
+                    </div>
+
+                    <h3>
+                        TEMPERATURE
+                    </h3>
+
+                    <p>
+                        27°C
+                    </p>
+
+                </div>
+
+
+                <div class="sensor-card">
+
+                    <div class="icon">
+                        ☀️
+                    </div>
+
+                    <h3>
+                        LIGHT LEVEL
+                    </h3>
+
+                    <p>
+                        78%
+                    </p>
+
+                </div>
+
+
+                <div class="sensor-card">
+
+                    <div class="icon">
+                        💚
+                    </div>
+
+                    <h3>
+                        HAPPINESS
+                    </h3>
+
+                    <p>
+                        92%
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="sensor-status">
+                🥳 Your plant is doing suspiciously well!
+            </div>
+
+
+            <button
+                class="sensor-button"
+                onclick="openPlantBook()"
+            >
+                Continue to PlantBook →
+            </button>
+
+
+            <p class="sensor-disclaimer">
+                Powered by absolutely unnecessary technology™
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ========================================================
+     PAGE 2 — PLANTBOOK
+========================================================= -->
+
+<section
+    id="plantbookPage"
+    class="page"
+>
+
+
+<header>
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            🌱
+        </div>
+
+        Plant<span>Book</span>
+
+    </div>
+
+
+    <div class="team">
+        🐱 TEAM MEOW
+    </div>
+
+</header>
+
+
+
+<main class="container">
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-icons">
+            🌱🐱
+        </div>
+
+        <h1>
+            Welcome to <span>PlantBook</span>
+        </h1>
+
+        <p>
+            The social network plants never asked for.
+        </p>
+
+        <div class="hero-tag">
+            🐾 A completely unnecessary project by Team MEOW
+        </div>
+
+    </section>
+
+
+
+    <div class="layout">
+
+
+        <!-- =================================================
+             LEFT COLUMN
+        ================================================== -->
+
+        <aside>
+
+
+            <!-- PROFILE -->
+
+            <div class="card profile">
+
+                <div
+                    class="avatar"
+                    id="avatar"
+                >
+                    🪴
+                </div>
+
+
+                <h2 id="plantName">
+                    Kevin
+                </h2>
+
+
+                <div
+                    class="species"
+                    id="plantSpecies"
+                >
+                    Money Plant
+                </div>
+
+
+                <div class="mood">
+
+                    🌤️ Mood:
+
+                    <b id="plantMood">
+                        Needs sunlight
+                    </b>
+
+                </div>
+
+
+                <div class="stats">
+
+                    <div>
+
+                        <strong id="profileLikes">
+                            127
+                        </strong>
+
+                        <span>
+                            Likes
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong id="followers">
+                            83
+                        </strong>
+
+                        <span>
+                            Followers
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong id="postCount">
+                            12
+                        </strong>
+
+                        <span>
+                            Posts
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="primary"
+                    id="followBtn"
+                    onclick="followPlant()"
+                >
+                    Follow Kevin
+                </button>
+
+            </div>
+
+
+
+            <!-- CREATE PLANT -->
+
+            <div class="card form">
+
+                <h2>
+                    🌱 Create Plant
+                </h2>
+
+
+                <input
+                    id="newName"
+                    placeholder="Give your plant a name"
+                >
+
+
+                <select id="newType">
+
+                    <option>
+                        Money Plant
+                    </option>
+
+                    <option>
+                        Rose
+                    </option>
+
+                    <option>
+                        Cactus
+                    </option>
+
+                    <option>
+                        Peace Lily
+                    </option>
+
+                    <option>
+                        Snake Plant
+                    </option>
+
+                    <option>
+                        Fern
+                    </option>
+
+                </select>
+
+
+                <button
+                    class="primary"
+                    onclick="addPlant()"
+                >
+                    Create Profile
+                </button>
+
+            </div>
+
+
+
+            <!-- DRAMA -->
+
+            <div class="card">
+
+                <h2>
+                    😂 Plant Drama
+                </h2>
+
+
+                <div
+                    class="drama"
+                    id="drama"
+                >
+                    Today's plant drama is loading...
+                </div>
+
+
+                <button
+                    class="drama-btn"
+                    onclick="generateDrama()"
+                >
+                    🎭 Generate Drama
+                </button>
+
+            </div>
+
+
+        </aside>
+
+
+
+        <!-- =================================================
+             RIGHT COLUMN
+        ================================================== -->
+
+        <section>
+
+
+            <!-- CREATE POST -->
+
+            <div class="card">
+
+                <h2>
+                    🌿 What is your plant thinking?
+                </h2>
+
+
+                <div class="composer">
+
+                    <textarea
+                        id="postInput"
+                        placeholder="Write something as your plant..."
+                    ></textarea>
+
+
+                    <button
+                        onclick="createPost()"
+                    >
+                        Post 🌱
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FEED -->
+
+            <div class="card">
+
+                <div class="feed-title">
+
+                    <h2>
+                        📰 Plant Feed
+                    </h2>
+
+                    <span class="feed-label">
+                        LIVE
+                    </span>
+
+                </div>
+
+
+                <div id="feed">
+
+
+                    <!-- ROSE -->
+
+                    <article class="post">
+
+                        <div class="posthead">
+
+                            <div class="mini">
+                                🌹
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Rose
+                                </strong>
+
+                                <small>
+                                    @rose · 10 min ago
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <p class="posttext">
+
+                            Finally got some sunlight today.
+                            Life is beautiful. ☀️🌹
+
+                        </p>
+
+
+                        <div class="actions">
+
+                            <button
+                                class="like"
+                                onclick="likePost(this)"
+                            >
+                                ❤️ Like
+                                <span>24</span>
+                            </button>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <!-- CACTUS -->
+
+                    <article class="post">
+
+                        <div class="posthead">
+
+                            <div class="mini">
+                                🌵
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Spike
+                                </strong>
+
+                                <small>
+                                    @cactus · 32 min ago
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <p class="posttext">
+
+                            Everyone keeps asking why I don't
+                            need much water. Mind your business. 🌵
+
+                        </p>
+
+
+                        <div class="actions">
+
+                            <button
+                                class="like"
+                                onclick="likePost(this)"
+                            >
+                                ❤️ Like
+                                <span>41</span>
+                            </button>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <!-- FERN -->
+
+                    <article class="post">
+
+                        <div class="posthead">
+
+                            <div class="mini">
+                                🌿
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Fern
+                                </strong>
+
+                                <small>
+                                    @fern · 1 hour ago
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <p class="posttext">
+
+                            Some people don't respect personal space.
+                            I'm talking about Kevin. 🌿
+
+                        </p>
+
+
+                        <div class="actions">
+
+                            <button
+                                class="like"
+                                onclick="likePost(this)"
+                            >
+                                ❤️ Like
+                                <span>17</span>
+                            </button>
+
+                        </div>
+
+                    </article>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- LEADERBOARD -->
+
+            <div class="card">
+
+                <h2>
+                    🏆 Most Popular Plants
+                </h2>
+
+
+                <div class="leader">
+
+                    <span class="rank">
+                        1
+                    </span>
+
+                    <span class="plantname">
+
+                        🌹 Rose
+
+                        <span class="badge">
+                            Celebrity
+                        </span>
+
+                    </span>
+
+                    <span class="score">
+                        5,420 ❤️
+                    </span>
+
+                </div>
+
+
+                <div class="leader">
+
+                    <span class="rank">
+                        2
+                    </span>
+
+                    <span class="plantname">
+
+                        🪴 Kevin
+
+                        <span class="badge">
+                            Trying
+                        </span>
+
+                    </span>
+
+                    <span class="score">
+                        3,871 ❤️
+                    </span>
+
+                </div>
+
+
+                <div class="leader">
+
+                    <span class="rank">
+                        3
+                    </span>
+
+                    <span class="plantname">
+
+                        🌵 Spike
+
+                        <span class="badge">
+                            Unbothered
+                        </span>
+
+                    </span>
+
+                    <span class="score">
+                        2,910 ❤️
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- NOTIFICATIONS -->
+
+            <div class="card">
+
+                <h2>
+                    🔔 Notifications
+                </h2>
+
+
+                <div class="notification">
+
+                    <span class="dot"></span>
+
+                    <span>
+                        <b>Rose</b>
+                        liked Kevin's post.
+                    </span>
+
+                </div>
+
+
+                <div class="notification">
+
+                    <span class="dot"></span>
+
+                    <span>
+                        <b>Spike</b>
+                        started following you.
+                    </span>
+
+                </div>
+
+
+                <div class="notification">
+
+                    <span class="dot"></span>
+
+                    <span>
+                        <b>Fern</b>
+                        mentioned you in a post.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ANNOUNCEMENT -->
+
+            <div class="card announcement">
+
+                <div class="announcement-icon">
+                    🐱
+                </div>
+
+
+                <h2>
+                    Team MEOW Announcement
+                </h2>
+
+
+                <p>
+
+                    We are proud to announce that
+                    absolutely nobody requested PlantBook.
+
+                </p>
+
+
+                <button
+                    class="secondary"
+                    onclick="openModal()"
+                >
+                    Why does this exist? 🤔
+                </button>
+
+            </div>
+
+
+        </section>
+
+    </div>
+
+</main>
+
+
+
+<footer>
+
+    🌱 PlantBook © 2026
+
+    <br><br>
+
+    Made with 🐾 by
+    <b>
+        Team MEOW
+    </b>
+
+    <br><br>
+
+    Connecting plants since absolutely nobody asked. 😂
+
+</footer>
+
+
+</section>
+
+
+
+<!-- ========================================================
+     MODAL
+========================================================= -->
+
+<div
+    class="modal"
+    id="modal"
+>
+
+    <div class="modalbox">
+
+        <button
+            class="close"
+            onclick="closeModal()"
+        >
+            ×
+        </button>
+
+
+        <h2>
+            🤔 Why does PlantBook exist?
+        </h2>
+
+
+        <p>
+
+            It doesn't solve a real-world problem.
+            That is the point.
+
+            <br><br>
+
+            PlantBook is a playful experiment showing
+            how social-media features can be applied
+            to a completely unnecessary idea.
+
+            <br><br>
+
+            Plants don't need followers.
+            Plants don't need likes.
+            Plants definitely don't need drama.
+
+            <br><br>
+
+            But here we are. 🌱
+
+        </p>
+
+
+        <button
+            class="primary"
+            onclick="closeModal()"
+            style="margin-top:18px"
+        >
+            I understand absolutely nothing 😂
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- TOAST -->
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+
+<script>
+
+
+/* =========================================================
+   SENSOR PAGE
+========================================================= */
+
+function scanPlant() {
+
+    document.getElementById("start")
+        .style.display = "none";
+
+    document.getElementById("scanning")
+        .style.display = "block";
+
+
+    setTimeout(function() {
+
+        document.getElementById("scanning")
+            .style.display = "none";
+
+        document.getElementById("result")
+            .style.display = "block";
+
+    }, 3000);
+
+}
+
+
+/* =========================================================
+   SENSOR → PLANTBOOK
+========================================================= */
+
+function openPlantBook() {
+
+    document
+        .getElementById("sensorPage")
+        .classList.remove("active");
+
+
+    document
+        .getElementById("plantbookPage")
+        .classList.add("active");
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "instant"
+    });
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function toast(message) {
+
+    const t =
+        document.getElementById("toast");
+
+    t.textContent = message;
+
+    t.classList.add("show");
+
+
+    setTimeout(function() {
+
+        t.classList.remove("show");
+
+    }, 2200);
+
+}
+
+
+/* =========================================================
+   FOLLOW
+========================================================= */
+
+let following = false;
+
+
+function followPlant() {
+
+    const button =
+        document.getElementById("followBtn");
+
+    const followers =
+        document.getElementById("followers");
+
+    const name =
+        document
+            .getElementById("plantName")
+            .textContent;
+
+
+    following = !following;
+
+
+    if (following) {
+
+        button.textContent =
+            "✓ Following";
+
+        button.style.background =
+            "#13291b";
+
+        button.style.borderColor =
+            "#2e6d41";
+
+        followers.textContent =
+            Number(followers.textContent) + 1;
+
+
+        toast(
+            "You are now following " +
+            name +
+            " 🌱"
+        );
+
+    }
+
+    else {
+
+        button.textContent =
+            "Follow " + name;
+
+        button.style.background =
+            "";
+
+        button.style.borderColor =
+            "";
+
+        followers.textContent =
+            Number(followers.textContent) - 1;
+
+
+        toast(
+            "Unfollowed. The plant is heartbroken. 😭"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   LIKE
+========================================================= */
+
+function likePost(button) {
+
+    const span =
+        button.querySelector("span");
+
+
+    const liked =
+        button.classList.toggle("liked");
+
+
+    span.textContent =
+        Number(span.textContent) +
+        (liked ? 1 : -1);
+
+
+    button.childNodes[0].textContent =
+        liked
+        ? "💖 Liked "
+        : "❤️ Like ";
+
+}
+
+
+/* =========================================================
+   CREATE POST
+========================================================= */
+
+function createPost() {
+
+    const input =
+        document.getElementById("postInput");
+
+
+    const text =
+        input.value.trim();
+
+
+    if (!text) {
+
+        toast(
+            "Your plant has nothing to say! 🌱"
+        );
+
+        return;
+
+    }
+
+
+    const name =
+        document
+            .getElementById("plantName")
+            .textContent;
+
+
+    const post =
+        document.createElement("article");
+
+
+    post.className = "post";
+
+
+    post.innerHTML = `
+
+        <div class="posthead">
+
+            <div class="mini">
+                🪴
+            </div>
+
+            <div>
+
+                <strong>
+                    ${escapeHTML(name)}
+                </strong>
+
+                <small>
+                    @plant · Just now
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <p class="posttext">
+            ${escapeHTML(text)}
+        </p>
+
+
+        <div class="actions">
+
+            <button
+                class="like"
+                onclick="likePost(this)"
+            >
+                ❤️ Like
+                <span>0</span>
+            </button>
+
+        </div>
+
+    `;
+
+
+    document
+        .getElementById("feed")
+        .prepend(post);
+
+
+    const count =
+        document.getElementById("postCount");
+
+
+    count.textContent =
+        Number(count.textContent) + 1;
+
+
+    input.value = "";
+
+
+    toast(
+        "Posted successfully. Nobody needed it. 😂"
+    );
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        text;
+
+    return div.innerHTML;
+
+}
+
+
+/* =========================================================
+   PLANT DRAMA
+========================================================= */
+
+function generateDrama() {
+
+    const dramas = [
+
+        "🌿 Kevin unfollowed Rose because she gets more sunlight.",
+
+        "🌵 Spike is angry because someone watered him AGAIN.",
+
+        "🌹 Rose posted a selfie and got 500 likes. Kevin is jealous.",
+
+        "🪴 Kevin says he is taking a break from social media but is still online.",
+
+        "🌱 The Peace Lily created a group chat without the Cactus.",
+
+        "🌵 Spike blocked Kevin after an argument about window space.",
+
+        "🌿 Fern posted 'some people don't respect boundaries.' Nobody knows who it is about.",
+
+        "🌹 Rose is demanding better lighting for her next photoshoot.",
+
+        "🐱 Team MEOW has been accused of giving Kevin too much attention.",
+
+        "🪴 Kevin has entered his photosynthesis era.",
+
+        "🌱 The Aloe Vera started a podcast. Nobody listened.",
+
+        "🌵 Spike has announced that he is 'done with everyone.'"
+
+    ];
+
+
+    const random =
+        Math.floor(
+            Math.random() *
+            dramas.length
+        );
+
+
+    document
+        .getElementById("drama")
+        .textContent =
+        dramas[random];
+
+}
+
+
+/* =========================================================
+   CREATE PLANT
+========================================================= */
+
+function addPlant() {
+
+    const name =
+        document
+            .getElementById("newName")
+            .value
+            .trim();
+
+
+    const type =
+        document
+            .getElementById("newType")
+            .value;
+
+
+    if (!name) {
+
+        toast(
+            "Please give your plant a name 🌱"
+        );
+
+        return;
+
+    }
+
+
+    document
+        .getElementById("plantName")
+        .textContent =
+        name;
+
+
+    document
+        .getElementById("plantSpecies")
+        .textContent =
+        type;
+
+
+    document
+        .getElementById("followBtn")
+        .textContent =
+        "Follow " + name;
+
+
+    following = false;
+
+
+    document
+        .getElementById("newName")
+        .value = "";
+
+
+    toast(
+        "🎉 " +
+        name +
+        " has joined PlantBook!"
+    );
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function openModal() {
+
+    document
+        .getElementById("modal")
+        .classList.add("show");
+
+}
+
+
+function closeModal() {
+
+    document
+        .getElementById("modal")
+        .classList.remove("show");
+
+}
+
+
+/* =========================================================
+   INITIAL DRAMA
+========================================================= */
+
+generateDrama();
+
+</script>
+
+</body>
+</html>
