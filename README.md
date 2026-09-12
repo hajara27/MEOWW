@@ -2,96 +2,84 @@
 
 
 
-# [Project Name] 🎯
+# PLANT BOOK 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: MEOW
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- HAJARA A. - Carmel College of Engineering
+- AISWARYA S. NAIR. - Carmel College of Engineering
 
 ### Project Description
-[2-3 lines about what your project does]
+PlantBook is a fun web-based social media platform where users can create profiles, posts, likes, and followers for their plants. 🌱
+Developed by Team MEOW using HTML, CSS, and JavaScript, it brings a humorous social life to plants with features like a Plant Drama Generator.🐱
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+There's literally no problem!
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+There is absolutely no problme so no solution!!
 
 ## Technical Details
 ### Technologies/Components Used
-For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
-
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+For Software: PlantBook is implemented as a web application
+- HTML, CSS, and JavaScript
+- Visual Studio Code
 
 ### Implementation
 For Software:
 # Installation
-[commands]
+No installation or additional dependencies are required.
 
 # Run
-[commands]
+Open index.html in any modern web browser.
 
 ### Project Documentation
-For Software:
+For Software: PlantBook is a simple browser-based web application that gives plants a fun social-media experience. It includes plant profiles, posts, likes, follows, and a Plant Drama Generator.
 
-# Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+# Screenshots
+sensor of plants <img width="1912" height="897" alt="image" src="https://github.com/user-attachments/assets/ac008d9d-1261-401b-94aa-33876a516332" />
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+
+Analysing Plants <img width="1918" height="885" alt="image" src="https://github.com/user-attachments/assets/a320e348-ba73-4e2d-8708-a8b6b54e0a51" />
+
+
+
+PlankBook <img width="1886" height="897" alt="image" src="https://github.com/user-attachments/assets/50ea3d8c-c94a-4144-bc8d-8ffe6dc09b52" />
+
+
 
 # Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
+![Workflow]<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/4d63435e-8291-4628-a597-294da4bfb1b2" />
 
-For Hardware:
 
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
 
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
+For Hardware: <img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/26f00c94-ef8a-4e31-9122-f9b0c782dc74" />
+
+
+
 
 # Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
+!<img width="1911" height="1015" alt="image" src="https://github.com/user-attachments/assets/f7fe85f7-4920-4ee4-ac15-1a736cfdb91c" />
 
-![Build](Add photos of build process here)
-*Explain the build steps*
 
-![Final](Add photo of final product here)
-*Explain the final build*
+
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
+[https://discord.com/channels/@me/1509213168335851571/1548139568031604766]
+*The video demonstrates demo of the PlanBook*
 
-# Additional Demos
-[Add any extra demo materials/links]
+
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- Hajara: Design & Development
+- Aiswarya: Presentation & Testing
+
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
